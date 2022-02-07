@@ -37,8 +37,6 @@
 
 
 ## 4W's & 1H
-
-<<<<<<< HEAD
 ### Who
 - A user who wants to store information digitally.
 
