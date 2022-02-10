@@ -1,22 +1,20 @@
 /**
- * @file phonebook1.c
- * @author Jayanth (you@domain.com)
- * @brief 
- * @version 0.1
- * @date 2021-09-06
- * 
- * @copyright Copyright (c) 2021
+ * @file demo.c
+ * @author Aashish Kalra(aashish.kalra1999@.com)
+ * @brief This file contains description to all the functions 
+ * @version 1
+ * @date 2022-02-09
+ * @copyright Copyright (c) 2022
  * 
  */
-#include "phonebook1.h"
-
+#include "header.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
 
-#define MAXIMUM_SIZE 200
-int presentSize = 0; //current number of contacts in the Contact structure
+#define MAX_size 100
+int currentSize = 0; //current number of contacts in the Contact structure
 
 void LowerString(char *string)
 {
@@ -29,115 +27,81 @@ void LowerString(char *string)
     }
 }
 
-Contact contacts[MAXIMUM_SIZE]; // array of structure Contact
+Contact contacts[MAX_size]; // array of structure Contact
 
 int addContact()
 {
-    if(presentSize == MAXIMUM_SIZE) 
+    if(currentSize == MAX_size) 
     {
-        printf("\nPhoneBook Manager is out of storage\n");
+        printf("\nContact List Full\n");
         return 0;
     }
     else
     {
     Contact* c1;
     c1 = (Contact*)(malloc(sizeof(Contact)));
-    if(c1==NULL)
-    {
-        printf("\nOut of memory error\n");
-    }
-    else
-    {
         int flag=0;
         printf("\n First Name: ");
-        
-        fgets(c1->firstName,50,stdin);
+        fgets(c1->firstName,25,stdin);
         printf("\n Last Name: ");
-        fgets(c1->lastName,50,stdin);
+        fgets(c1->lastName,25,stdin);
         printf("\n Phone Number: ");
         fgets(c1->phoneNumber,11,stdin);
         printf("\n Email Id: ");
         fgets(c1->email,50,stdin);
-
-        contacts[presentSize] = *c1;
-        ++presentSize;
-
-        printf("\nContact is sucessfully added.\n");
+        printf("\n City: ");
+        fgets(c1->city,50,stdin);
+        contacts[currentSize] = *c1;
+        ++currentSize;
+        printf("\nContact sucessfully added.\n");
         free(c1);
-
-    }
-
     }
 }
 
-
-
-
-
 int displayContact(int i)
 {
-    if(i < 0 || i >= presentSize) 
+    if(i < 0 || i >= currentSize) 
     {
         printf("\nInvalid index entered");
         return 0;
     }
-
     Contact* c1 = &contacts[i];
     printf("\nFirst Name: %s\n", c1->firstName);
     printf("Last Name : %s\n", c1->lastName);
     printf("Mobile No : %s\n", c1->phoneNumber);
     printf("Email Id : %s\n\n",c1->email);
-    
+    printf("City : %s\n\n",c1->city);
     return 1;
 }
 
-
 int displayAllContacts()
 {
-    if(presentSize == 0) 
+    if(currentSize == 0) 
     {
-        printf("\nPhoneBook Manager is currently empty\n");
+        printf("\nNo Existing Contacts\n");
         return 0;
     }
     int k;
-    for(k = 0;k< presentSize; k++)
+    for(k = 0;k< currentSize; k++)
     {
         displayContact(k);
         printf("\n");
     }
 }
 
-
-int searchContact(char *selection, search_t attribute)
+int searchContact(char *input, search_t attribute)
 {
     int flag = 0,i;
 
-    LowerString(selection);
+    LowerString(input);
     char content[41];
-
     if(attribute == FIRST_NAME) 
     { // searching by first name
-        for(i=0; i<presentSize; i++)
+        for(i=0; i<currentSize; i++)
          {
-
             strcpy(content, contacts[i].firstName);
             LowerString(content);
-
-            if(strcmp(content, selection) == 0) 
-            {
-                displayContact(i);
-                flag = 1;
-            }
-        }
-    }
-    else if(attribute == LAST_NAME) 
-    { // searching by last name
-        for(i=0; i<presentSize; i++) 
-        {
-            strcpy(content, contacts[i].lastName);
-            LowerString(content);
-
-            if(strcmp(content, selection) == 0)
+            if(strcmp(content, input) == 0) 
             {
                 displayContact(i);
                 flag = 1;
@@ -146,31 +110,31 @@ int searchContact(char *selection, search_t attribute)
     }
     else if(attribute  == MOBILE_NUMBER) 
     { // searching by mobile number
-        for(i=0; i<presentSize; i++) 
+        for(i=0; i<currentSize; i++) 
         {
             strcpy(content, contacts[i].phoneNumber);
             LowerString(content);
 
-            if(strcmp(content, selection) == 0) 
+            if(strcmp(content, input) == 0) 
             {
                 displayContact(i);
                 flag = 1;
             }
         }
     }
-    else if(attribute  == EMAIL_ID) 
-    { // searching by email id
-        for(i=0; i<presentSize; i++) 
+    else if(attribute == CITY)
+    {
+       // searching by email id
+        for(i=0; i<currentSize; i++) 
         {
-            strcpy(content, contacts[i].email);
+            strcpy(content, contacts[i].city);
             LowerString(content);
-
-            if(strcmp(content, selection) == 0) 
+            if(strcmp(content, input) == 0) 
             {
                 displayContact(i);
                 flag = 1;
             }
-        }
+        } 
     }
     else 
     {
@@ -178,61 +142,34 @@ int searchContact(char *selection, search_t attribute)
         return 0;
     }
 
-    if(!flag) {
+    if(!flag) 
+    {
         printf("\nContact not found in the phonebook manager\n");
     }
-
 }
-
-
-
-int comparator(const void* p, const void* q)
-{
-    char *s,*t;
-    s = ((Contact*)p)->firstName;
-    LowerString(s);
-    t = ((Contact*)q)->firstName;
-    LowerString(t);
-    return strcmp(s,t);
-}
-
-
-
-void sort_Contacts()
-{
-    qsort(contacts, presentSize, sizeof(Contact), comparator);
-    displayAllContacts();
-}
-
-
-
 
 int removeContact(char *phoneNumber)
 {
-    if(presentSize == 0) 
+    if(currentSize == 0) 
     {
         printf("\nPhoneBook Manager is empty, Cannot delete anything\n");
         return 0;
     }
-
-
     int i, j;
     int cnt = 0;
-    for(i=0; i<presentSize; i++) 
+    for(i=0; i<currentSize; i++) 
     {
         if(strcmp(contacts[i].phoneNumber, phoneNumber) == 0) 
         {
-            for(j=i; j<presentSize-1; j++) 
+            for(j=i; j<currentSize-1; j++) 
             {
                 contacts[j] = contacts[j+1];
             }
-
             strcpy(contacts[j].firstName, "");
             strcpy(contacts[j].lastName, "");
             strcpy(contacts[j].phoneNumber, "");
             strcpy(contacts[j].email, "");
-
-            presentSize -= 1;
+            currentSize -= 1;
             ++cnt;
         }
     }
@@ -245,8 +182,6 @@ int removeContact(char *phoneNumber)
         printf("%d contact deleted\n", cnt);
     }
 }
-
-
 int retriveFromFile()
 {
     FILE *fp;
@@ -256,9 +191,8 @@ int retriveFromFile()
         return 5;
     }
 
-
     /* read the size of the phone book */
-    if(fread(&presentSize, sizeof(presentSize), 1, fp) != 1) 
+    if(fread(&currentSize, sizeof(currentSize), 1, fp) != 1) 
     {
         printf("\nError, Cannot read data\n");
         return 3;
@@ -274,8 +208,6 @@ int retriveFromFile()
     return 5;
 
 }
-
-
 int storeToFile()
 {
     FILE *fp;
@@ -286,19 +218,17 @@ int storeToFile()
     }
 
     /* Save the current size of the phonebook */
-    if (fwrite(&presentSize, sizeof(presentSize), 1, fp) != 1 ) 
+    if (fwrite(&currentSize, sizeof(currentSize), 1, fp) != 1 ) 
     {
         printf("\nCannot save the contact\n");
         return 3;
     }
-
     /* save the phonebook contents */
     if(fwrite(contacts, sizeof(contacts), 1, fp) != 1)
      {
         printf("\nCannot save the contact\n");
         return 4;
     }
-
     printf("\nPhoneBook Manager saved to file successfully! \n");
     fclose(fp);
     return 5;
