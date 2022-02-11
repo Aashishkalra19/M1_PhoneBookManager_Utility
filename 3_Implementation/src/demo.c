@@ -16,17 +16,6 @@
 #define MAX_size 100
 int currentSize = 0; //current number of contacts in the Contact structure
 
-void LowerString(char *string)
-{
-    int length;
-    length = strlen(string);
-    int j;
-    for(j=0; j<length; j++) 
-    {
-        string[j] = tolower(string[j]);
-    }
-}
-
 Contact contacts[MAX_size]; // array of structure Contact
 
 int addContact()
@@ -92,15 +81,12 @@ int displayAllContacts()
 int searchContact(char *input, search_t attribute)
 {
     int flag = 0,i;
-
-    LowerString(input);
-    char content[41];
+    char content[25];
     if(attribute == FIRST_NAME) 
     { // searching by first name
         for(i=0; i<currentSize; i++)
          {
             strcpy(content, contacts[i].firstName);
-            LowerString(content);
             if(strcmp(content, input) == 0) 
             {
                 displayContact(i);
@@ -113,8 +99,6 @@ int searchContact(char *input, search_t attribute)
         for(i=0; i<currentSize; i++) 
         {
             strcpy(content, contacts[i].phoneNumber);
-            LowerString(content);
-
             if(strcmp(content, input) == 0) 
             {
                 displayContact(i);
@@ -128,7 +112,7 @@ int searchContact(char *input, search_t attribute)
         for(i=0; i<currentSize; i++) 
         {
             strcpy(content, contacts[i].city);
-            LowerString(content);
+          
             if(strcmp(content, input) == 0) 
             {
                 displayContact(i);

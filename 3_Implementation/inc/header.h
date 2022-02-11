@@ -25,13 +25,6 @@ typedef struct
     char city[25];
 } Contact;
 
-/**
- * @brief this function changes the string to lower case
- * 
- * @param string passed to covert to lowercase 
- * 
- */
-void LowerString(char *str);
 
 /* enumerator for different search types */
 

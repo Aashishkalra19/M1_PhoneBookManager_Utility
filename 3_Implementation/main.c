@@ -14,20 +14,21 @@
 #include <string.h>
 
 #include "header.h"  // user defined header file
-
+extern void test_main();
 int main()
 {
+    // #if 0 // Uncomment while Unit testing
     retriveFromFile();
     char input[50];
     int user_choice;
     while(1)
     {
-        printf("PhoneBook_Manager Utility Main menu\n\n");
+        printf("\nPhoneBook_Manager Utility Main menu\n\n");
         printf("    1. Add a new Contact\n");
         printf("    2. Display All Contacts\n");
         printf("    3. Search Contact by First Name\n");
         printf("    4. Search Contact by Phone Number\n");
-        printf("    5. Search Contact by City Id\n");
+        printf("    5. Search Contact by City\n");
         printf("    6. Delete a Contact by Phone Number \n");
         printf("    7. Save Data to a File\n");
         printf("    8. Exit\n");
@@ -77,5 +78,9 @@ int main()
             break;
         }
     }
+    // Uncomment next 3 lines while unit testing
+    /* #else
+    test_main();
+    #endif*/
     return 0;
 }
