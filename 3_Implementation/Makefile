@@ -1,5 +1,6 @@
 #Target : Dependencies
 #<TAB>commands
+
 PROJ_FOL = M1_PhoneBookManager_Utility
 PROJ_NAME = PhoneBook_manager
 TEST_PROJ_NAME = test_$(PROJ_NAME)
@@ -15,7 +16,7 @@ BUILD_DIR = Build
 
 unity/unity.c
 
-INC = -I inc -I unity
+INC = -Iinc -Iunity
 
 ifdef OS
    RM = del /q
