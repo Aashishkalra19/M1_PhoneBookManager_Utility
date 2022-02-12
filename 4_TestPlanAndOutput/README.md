@@ -1,5 +1,5 @@
 # Test Plan
-##  Low level test plan
+##  High level test plan
 | **Test ID** | **Description**                                              | **Exp I/P** | **Exp O/P** | **Actual Out** |**Type Of Test**  |    
 |-------------|--------------------------------------------------------------|------------|-------------|----------------|------------------|
 |  H_01       | Display Main Menu |  None | Options to choose operations to be performed|Options to choose operations to be performed|Requirement based |
